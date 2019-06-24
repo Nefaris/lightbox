@@ -1,46 +1,63 @@
-window.onload = function () {
-  let borderSize = '.75em';
-  let bodyCover = 'rgba(0, 0, 0, .65)';
+let lightboxBodyCover = document.createElement('div');
+lightboxBodyCover.id = 'lightboxBodyCover';
+lightboxBodyCover.style.position = 'fixed';
+lightboxBodyCover.style.top = '0';
+lightboxBodyCover.style.left = '0';
+lightboxBodyCover.style.width = '100%';
+lightboxBodyCover.style.height = '100%';
+lightboxBodyCover.style.backgroundColor = 'rgba(0, 0, 0, .9)';
+lightboxBodyCover.style.zIndex = '998';
+lightboxBodyCover.style.display = 'none';
 
-  let lighBoxContainer = document.createElement('div');
-  lighBoxContainer.id = 'lighBoxContainer';
-  lighBoxContainer.style.display = 'none';
-  lighBoxContainer.style.justifyContent = 'center';
-  lighBoxContainer.style.alignItems = 'center';
-  lighBoxContainer.style.backgroundColor = '#fff';
-  lighBoxContainer.style.padding = borderSize;
-  lighBoxContainer.style.position = 'absolute';
-  lighBoxContainer.style.left = '50%';
-  lighBoxContainer.style.top = '50%';
-  lighBoxContainer.style.transform = 'translate(-50%, -50%)';
-  lighBoxContainer.style.zIndex = '999';
-  document.getElementsByTagName('body')[0].appendChild(lighBoxContainer);
+let lightboxImage = document.createElement('div');
+lightboxImage.style.position = 'fixed';
+lightboxImage.style.transform = 'translate(-50%, -50%)';
+lightboxImage.style.left = '50%';
+lightboxImage.style.top = '50%';
+lightboxImage.style.backgroundColor = 'rgba(255, 255, 255, 1)';
+lightboxImage.style.zIndex = '999';
+lightboxImage.style.textAlign = 'center';
+lightboxImage.style.display = 'none';
 
-  let lighBoxBodyCover = document.createElement('div');
-  lighBoxBodyCover.id = 'lighBoxBodyCover';
-  lighBoxBodyCover.style.display = 'none';
-  lighBoxBodyCover.style.width = '100%';
-  lighBoxBodyCover.style.height = '100%';
-  lighBoxBodyCover.style.backgroundColor = bodyCover;
-  lighBoxBodyCover.style.position = 'fixed';
-  lighBoxBodyCover.style.zIndex = '998';
-  document.getElementsByTagName('body')[0].appendChild(lighBoxBodyCover);
+let lightboxImages = document.getElementsByClassName('lightbox');
 
-  images = document.getElementsByClassName('lightbox');
-
-  for (let i = 0; i < images.length; i++) {
-    images[i].addEventListener('click', imgClicked);
-  }
-
-  function imgClicked(e) {
-    document.getElementById('lighBoxBodyCover').style.display = 'flex';
-    document.getElementById('lighBoxContainer').style.display = 'block';
-    document.getElementById('lighBoxContainer').innerHTML = `<img style='width: ${e.target.width * 2}px; height: ${e.target.height * 2}px' src='${e.target.src}'>`;
-    lighBoxShowed = true;
-  }
-
-  document.getElementById('lighBoxBodyCover').addEventListener('click', () => {
-     document.getElementById('lighBoxContainer').style.display = 'none';
-     document.getElementById('lighBoxBodyCover').style.display = 'none';
-  });
+for (let image of lightboxImages) {
+    image.style.cursor = 'pointer';
+    image.addEventListener('click', openLightbox);
 }
+
+lightboxBodyCover.addEventListener('click', closeLightbox);
+
+function openLightbox(e) {
+    setImage(e.target.src);
+    showCover();
+    showLightboxImage();
+}
+
+function closeLightbox() {
+    hideCover();
+    hideLightBoxImage();
+}
+
+function setImage(src) {
+    lightboxImage.innerHTML = `<img style="max-width: 99%; transform: scale(1.5)" src=${src}>`;
+}
+
+function showLightboxImage() {
+    lightboxImage.style.display = 'block';
+}
+
+function hideLightBoxImage() {
+    lightboxImage.style.display = 'none';
+}
+
+function showCover() {
+    lightboxBodyCover.style.display = 'block';
+}
+
+function hideCover() {
+    lightboxBodyCover.style.display = 'none';
+}
+
+document.getElementsByTagName('body')[0].appendChild(lightboxBodyCover);
+document.getElementsByTagName('body')[0].appendChild(lightboxImage);
