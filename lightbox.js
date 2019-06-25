@@ -40,7 +40,7 @@ function closeLightbox() {
 }
 
 function setImage(src) {
-    lightboxImage.innerHTML = `<img style="max-width: 99%; transform: scale(1.5)" src=${src}>`;
+    lightboxImage.innerHTML = `<img style="max-height: 90vh;" src=${src}>`;
 }
 
 function showLightboxImage() {
