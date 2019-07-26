@@ -1,0 +1,82 @@
+.lightbox:hover {
+    cursor: pointer;
+}
+
+#lightbox-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#lightbox-body-cover {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+#lightbox-controls {
+    position: fixed;
+    transform: translateX(-50%);
+    bottom: 20px;
+    left: 50%;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#image-counter {
+    margin: 0 20px;
+}
+
+#lightbox-prev-button,
+#lightbox-next-button {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    cursor: pointer;
+}
+
+#lightbox-prev-button {
+	/* specify your own next button */
+    background-image: url("../img/path63.svg");
+}
+
+#lightbox-next-button {
+	/* specify your own previus button */
+    background-image: url("../img/path62.svg");
+}
+
+#lightbox-close-button {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    transform: translateX(-50%);
+    top: 20px;
+    left: 50%;
+    cursor: pointer;
+	/* specify your own close button */
+    background-image: url('../img/path64.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+}
+
+#lightbox-image {
+    transform: translate(-50%, -50%);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+#lightbox-image img {
+    max-height: 80vh;
+    max-width: 90vw;
+}

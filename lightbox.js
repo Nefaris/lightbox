@@ -1,63 +1,75 @@
-let lightboxBodyCover = document.createElement('div');
-lightboxBodyCover.id = 'lightboxBodyCover';
-lightboxBodyCover.style.position = 'fixed';
-lightboxBodyCover.style.top = '0';
-lightboxBodyCover.style.left = '0';
-lightboxBodyCover.style.width = '100%';
-lightboxBodyCover.style.height = '100%';
-lightboxBodyCover.style.backgroundColor = 'rgba(0, 0, 0, .9)';
-lightboxBodyCover.style.zIndex = '998';
-lightboxBodyCover.style.display = 'none';
+let imageSources = [];
+let actualImage; 
 
-let lightboxImage = document.createElement('div');
-lightboxImage.style.position = 'fixed';
-lightboxImage.style.transform = 'translate(-50%, -50%)';
-lightboxImage.style.left = '50%';
-lightboxImage.style.top = '50%';
-lightboxImage.style.backgroundColor = 'rgba(255, 255, 255, 1)';
-lightboxImage.style.zIndex = '999';
-lightboxImage.style.textAlign = 'center';
-lightboxImage.style.display = 'none';
+const lightboxWrapper = document.getElementById("lightbox-wrapper");
+const lightboxBodyCover = document.getElementById("lightbox-body-cover");
+const imageCounter = document.getElementById('image-counter');
+const lightboxImage = document.getElementById('lightbox-image');
+const lightboxPrevButton = document.getElementById('lightbox-prev-button');
+const lightboxNextButton = document.getElementById('lightbox-next-button');
+const lightboxCloseButton = document.getElementById('lightbox-close-button');
 
-let lightboxImages = document.getElementsByClassName('lightbox');
+let lightboxImaes = Array.from(document.getElementsByClassName("lightbox"));
 
-for (let image of lightboxImages) {
-    image.style.cursor = 'pointer';
+for (let image of lightboxImaes) {
+    imageSources.push(image.src);
     image.addEventListener('click', openLightbox);
 }
 
-lightboxBodyCover.addEventListener('click', closeLightbox);
+lightboxBodyCover.addEventListener('click', hideLightboxWrapper);
+lightboxPrevButton.addEventListener('click', setPrevImage);
+lightboxNextButton.addEventListener('click', setNextImage);
+lightboxCloseButton.addEventListener('click', hideLightboxWrapper);
+
+window.addEventListener('keyup', keyPressed);
+
+function keyPressed(event) {
+    // left arrow: 37
+    // right arrow: 39
+    
+    if (event.keyCode == 39) {
+        setNextImage();
+    } else if (event.keyCode == 37) {
+        setPrevImage();
+    }
+}
 
 function openLightbox(e) {
-    setImage(e.target.src);
-    showCover();
-    showLightboxImage();
+    actualImage = e.target.src;
+    setLightboxImage(actualImage);
+    updateImageCounter();
+    showLightboxWrapper();
 }
 
-function closeLightbox() {
-    hideCover();
-    hideLightBoxImage();
+function setPrevImage() {
+    if (imageSources.indexOf(actualImage) > 0) {
+        actualImage = imageSources[imageSources.indexOf(actualImage) - 1];
+        setLightboxImage(actualImage);
+        updateImageCounter();
+    }
 }
 
-function setImage(src) {
-    lightboxImage.innerHTML = `<img style="max-height: 90vh;" src=${src}>`;
+function setNextImage() {
+    if (imageSources.indexOf(actualImage) < imageSources.length - 1) {
+        actualImage = imageSources[imageSources.indexOf(actualImage) + 1]
+        setLightboxImage(actualImage);
+        updateImageCounter();
+    }
 }
 
-function showLightboxImage() {
-    lightboxImage.style.display = 'block';
+function setLightboxImage(image) {
+    lightboxImage.innerHTML = `<img src=${image}>`
 }
 
-function hideLightBoxImage() {
-    lightboxImage.style.display = 'none';
+function updateImageCounter() {
+    let number = imageSources.indexOf(actualImage) + 1;
+    imageCounter.innerHTML = `${number} / ${imageSources.length}`;
 }
 
-function showCover() {
-    lightboxBodyCover.style.display = 'block';
+function showLightboxWrapper() {
+    lightboxWrapper.style.display = "block";
 }
 
-function hideCover() {
-    lightboxBodyCover.style.display = 'none';
+function hideLightboxWrapper() {
+    lightboxWrapper.style.display = "none";
 }
-
-document.getElementsByTagName('body')[0].appendChild(lightboxBodyCover);
-document.getElementsByTagName('body')[0].appendChild(lightboxImage);
