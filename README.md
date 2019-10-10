@@ -1,7 +1,7 @@
 # Lightbox.js
 
 ### Basic usage
-To applay lightbox to simply add `lightbox` class to your image
+To apply lightbox to simply add `lightbox` class to your image
 ```html
 <img src="gallery_image.png" class="lightbox">
 ```
