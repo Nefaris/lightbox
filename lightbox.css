@@ -4,11 +4,13 @@
 
 #lightbox-wrapper {
     position: fixed;
+    z-index: 999;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: none;
+    transform: scale(0);
+    transition: transform 300ms;
 }
 
 #lightbox-body-cover {
